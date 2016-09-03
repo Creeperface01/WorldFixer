@@ -298,7 +298,7 @@ public class WorldFixer extends PluginBase implements Listener {
 
 
                     if (color) {
-                        level.setBiomeColor(x, z, 108, 151, 47);
+                        level.setBiomeColor(x, z, 163, 224, 83);
                     }
 
                     /*if (tiles) {
