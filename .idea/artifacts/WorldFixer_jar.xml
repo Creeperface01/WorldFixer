@@ -3,7 +3,6 @@
     <output-path>$PROJECT_DIR$/..</output-path>
     <root id="archive" name="WorldFixer.jar">
       <element id="module-output" name="WorldFixer" />
-      <element id="file-copy" path="$PROJECT_DIR$/plugin.yml" />
     </root>
   </artifact>
 </component>

@@ -26,7 +26,7 @@ permissions:
                         description: "allows fix broken tiles in your world"
                         default: op
                     wf.command.fix:
-                        description: "allows fix grass color and wooden slabs in your world"
+                        description: "allows fix whole world"
                         default: op
                     wf.command.wand:
                         description: "allows select an area"

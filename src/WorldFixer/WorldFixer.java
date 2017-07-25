@@ -2,11 +2,9 @@ package WorldFixer;
 
 import cn.nukkit.Player;
 import cn.nukkit.block.Block;
-import cn.nukkit.blockentity.BlockEntity;
 import cn.nukkit.command.Command;
 import cn.nukkit.command.CommandSender;
 import cn.nukkit.event.EventHandler;
-import cn.nukkit.event.EventPriority;
 import cn.nukkit.event.block.BlockBreakEvent;
 import cn.nukkit.event.Listener;
 import cn.nukkit.item.Item;
@@ -21,6 +19,8 @@ import java.util.*;
 public class WorldFixer extends PluginBase implements Listener {
 
     public HashMap<String, Selection> selectors = new HashMap<>();
+
+    private HashSet<String> levels = new HashSet<>();
 
     @Override
     public void onEnable() {
@@ -176,6 +176,9 @@ public class WorldFixer extends PluginBase implements Listener {
                     }
 
                     if (isSelector((Player) sender)) {
+                        Selection selection1 = this.selectors.get(sender.getName().toLowerCase());
+                        selection1.pos1 = null;
+                        selection1.pos2 = null;
                         break;
                     }
 
@@ -249,57 +252,81 @@ public class WorldFixer extends PluginBase implements Listener {
             return true;
         }*/
 
-        Vector3 temporalVector = new Vector3();
+        //Vector3 temporalVector = new Vector3();
 
         for (int x = Math.min(x1, x2); x < Math.max(x1, x2); x++) {
-                for (int z = Math.min(z1, z2); z < Math.max(z1, z2); z++) {
-                    if (slabs) {
-                        for (int y = Math.min(y1, y2); y < Math.max(y1, y2); y++) {
-                            int id = level.getBlockIdAt(x, y, z);
-                            int meta = level.getBlockDataAt(x, y, z);
+            for (int z = Math.min(z1, z2); z < Math.max(z1, z2); z++) {
+                if (slabs) {
+                    for (int y = Math.min(y1, y2); y < Math.max(y1, y2); y++) {
+                        int id = level.getBlockIdAt(x, y, z);
+                        //int meta = level.getBlockDataAt(x, y, z);
 
-                            switch (id) {
-                                case 126:
-                                    level.setBlockIdAt(x, y, z, Item.WOOD_SLAB);
-                                    break;
-                                case 95:
-                                    level.setBlockIdAt(x, y, z, Item.GLASS);
-                                    break;
-                                case 160:
-                                    level.setBlockIdAt(x, y, z, Item.GLASS_PANE);
-                                    level.setBlockDataAt(x, y, z, 0);
-                                    break;
-                                case 125:
-                                    level.setBlockIdAt(x, y, z, Item.DOUBLE_WOODEN_SLAB);
-                                    break;
-                                case 188:
-                                    level.setBlockIdAt(x, y, z, Item.FENCE);
-                                    level.setBlockDataAt(x, y, z, 1);
-                                    break;
-                                case 189:
-                                    level.setBlockIdAt(x, y, z, Item.FENCE);
-                                    level.setBlockDataAt(x, y, z, 2);
-                                    break;
-                                case 190:
-                                    level.setBlockIdAt(x, y, z, Item.FENCE);
-                                    level.setBlockDataAt(x, y, z, 3);
-                                    break;
-                                case 191:
-                                    level.setBlockIdAt(x, y, z, Item.FENCE);
-                                    level.setBlockDataAt(x, y, z, 4);
-                                    break;
-                                case 192:
-                                    level.setBlockIdAt(x, y, z, Item.FENCE);
-                                    level.setBlockDataAt(x, y, z, 5);
-                                    break;
-                            }
+                        switch (id) {
+                            case 3:
+                                if(level.getBlockDataAt(x, y, z) == 2) {
+                                    level.setBlockIdAt(x, y, z, Item.PODZOL);
+                                }
+                                break;
+                            case 125:
+                                level.setBlockIdAt(x, y, z, Item.DOUBLE_WOODEN_SLAB);
+                                break;
+                            case 126:
+                                level.setBlockIdAt(x, y, z, Item.WOOD_SLAB);
+                                break;
+                            case 95:
+                                level.setBlockIdAt(x, y, z, Item.GLASS);
+                                break;
+                            case 160:
+                                level.setBlockIdAt(x, y, z, Item.GLASS_PANE);
+                                level.setBlockDataAt(x, y, z, 0);
+                                break;
+                            case 166:
+                                level.setBlockIdAt(x, y, z, Item.INVISIBLE_BEDROCK);
+                                break;
+                            case 177:
+                                level.setBlockIdAt(x, y, z, Item.AIR);
+                                break;
+                            case 188:
+                                level.setBlockIdAt(x, y, z, Item.FENCE);
+                                level.setBlockDataAt(x, y, z, 1);
+                                break;
+                            case 189:
+                                level.setBlockIdAt(x, y, z, Item.FENCE);
+                                level.setBlockDataAt(x, y, z, 2);
+                                break;
+                            case 190:
+                                level.setBlockIdAt(x, y, z, Item.FENCE);
+                                level.setBlockDataAt(x, y, z, 3);
+                                break;
+                            case 191:
+                                level.setBlockIdAt(x, y, z, Item.FENCE);
+                                level.setBlockDataAt(x, y, z, 4);
+                                break;
+                            case 192:
+                                level.setBlockIdAt(x, y, z, Item.FENCE);
+                                level.setBlockDataAt(x, y, z, 5);
+                                break;
+                            case 198:
+                                level.setBlockIdAt(x, y, z, Item.END_ROD);
+                                break;
+                            case 199:
+                                level.setBlockIdAt(x, y, z, Item.CHORUS_PLANT);
+                                break;
+                            case 202:
+                            case 204:
+                                level.setBlockIdAt(x, y, z, Item.PURPUR_BLOCK);
+                                break;
+                            case 208:
+                                level.setBlockIdAt(x, y, z, Item.GRASS_PATH);
+                                break;
                         }
                     }
+                }
 
 
-                    if (color) {
-                        level.setBiomeColor(x, z, 108, 151, 47);
-                    }
+                if (color) {
+                    level.setBiomeColor(x, z, 108, 151, 47);
+                }
 
                     /*if (tiles) {
                         BlockEntity blockEntity = level.getBlockEntity(temporalVector.setComponents(x, y, z));
@@ -309,10 +336,22 @@ public class WorldFixer extends PluginBase implements Listener {
                         }
                     }*/
 
-                }
+            }
         }
 
         return true;
+    }
+
+    private void fixWorld(String world) {
+        Level level = getServer().getLevelByName(world);
+
+        if(level != null) {
+            level.unload();
+        }
+
+        levels.add(world.toLowerCase());
+
+
     }
 
     /*@EventHandler
