@@ -425,8 +425,7 @@ public class WorldFixer extends PluginBase implements Listener {
         getServer().unloadLevel(level);
         getServer().loadLevel(folder);
 
-
-        LevelConverter.convert(this, level, fast);
+        LevelConverter.convert(this, getServer().getLevelByName(folder), fast);
     }
 
     /*@EventHandler

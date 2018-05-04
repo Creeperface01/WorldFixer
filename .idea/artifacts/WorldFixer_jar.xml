@@ -3,6 +3,7 @@
     <output-path>$PROJECT_DIR$/..</output-path>
     <root id="archive" name="WorldFixer.jar">
       <element id="module-output" name="WorldFixer" />
+      <element id="extracted-dir" path="$MAVEN_REPOSITORY$/com/googlecode/json-simple/json-simple/1.1.1/json-simple-1.1.1.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

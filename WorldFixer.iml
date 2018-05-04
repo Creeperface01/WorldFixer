@@ -9,6 +9,9 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="nukkit" level="project" />
-    <orderEntry type="library" name="nukkit_original" level="project" />
+    <orderEntry type="library" name="com.googlecode.json-simple:json-simple:1.1.1" level="project" />
+    <orderEntry type="library" name="lombok" level="project" />
+    <orderEntry type="library" name="log4j:log4j:1.2.14" level="project" />
+    <orderEntry type="library" name="junit:junit:3.8.1" level="project" />
   </component>
 </module>
