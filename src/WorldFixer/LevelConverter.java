@@ -1,5 +1,6 @@
 package WorldFixer;
 
+import WorldFixer.util.BlockEntitySpawner;
 import WorldFixer.util.TextMessage;
 import cn.nukkit.blockentity.BlockEntity;
 import cn.nukkit.blockentity.BlockEntitySign;
@@ -10,6 +11,7 @@ import cn.nukkit.level.format.anvil.Chunk;
 import cn.nukkit.level.format.anvil.RegionLoader;
 import cn.nukkit.math.BlockFace;
 import cn.nukkit.math.NukkitMath;
+import cn.nukkit.math.Vector3;
 import cn.nukkit.utils.MainLogger;
 
 import java.io.File;
@@ -32,6 +34,7 @@ public class LevelConverter {
         if (regions != null && regions.length > 0) {
             double processed = 0;
             int blocks = 0;
+            int blockEntities = 0;
             long time = System.currentTimeMillis();
             plugin.getLogger().info("Starting fixing world '" + level.getName() + "'");
 
@@ -243,6 +246,11 @@ public class LevelConverter {
                                         chunkChanged = true;
                                         blocks++;
                                     }
+
+                                    if (BlockEntitySpawner.checkBlockEntity(id, chunk, new Vector3(x, y, z))) {
+                                        chunkChanged = true;
+                                        blockEntities++;
+                                    }
                                 }
                             }
                         }
@@ -285,7 +293,8 @@ public class LevelConverter {
                 }
             }
 
-            plugin.getLogger().info("World " + level.getName() + " successfully fixed in " + (System.currentTimeMillis() - time) / 1000 + "s. (Fixed " + blocks + " blocks)");
+            plugin.getLogger().info("World " + level.getName() + " successfully fixed in " + (System.currentTimeMillis() - time) / 1000 + "s. (Fixed " + blocks + " blocks and " + blockEntities
+                    + " blockentities)");
         }
     }
 }
