@@ -84,7 +84,7 @@ public class BlockEntitySpawner {
             if (bid != null && chunk.getTile(pos.getFloorX(), pos.getFloorY(), pos.getFloorZ()) == null) {
                 Vector3 real = pos.add(chunk.getX() * 16, 0, chunk.getZ() * 16);
 
-                BlockEntity be = BlockEntity.createBlockEntity(bid, chunk, BlockEntity.getDefaultCompound(real, bid));
+                BlockEntity.createBlockEntity(bid, chunk, BlockEntity.getDefaultCompound(real, bid));
 
                 return true;
             }
