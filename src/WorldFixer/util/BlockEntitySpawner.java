@@ -85,9 +85,6 @@ public class BlockEntitySpawner {
                 Vector3 real = pos.add(chunk.getX() * 16, 0, chunk.getZ() * 16);
 
                 BlockEntity be = BlockEntity.createBlockEntity(bid, chunk, BlockEntity.getDefaultCompound(real, bid));
-                if (real.getFloorX() == 5349 && real.getFloorY() == 52 && real.getFloorZ() == 5007) {
-                    MainLogger.getLogger().info("PLACED BE " + be);
-                }
 
                 return true;
             }
