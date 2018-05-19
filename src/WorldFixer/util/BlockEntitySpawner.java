@@ -4,10 +4,13 @@ import cn.nukkit.block.Block;
 import cn.nukkit.block.BlockChest;
 import cn.nukkit.blockentity.BlockEntity;
 import cn.nukkit.blockentity.BlockEntityChest;
-import cn.nukkit.level.format.Chunk;
+import cn.nukkit.level.Position;
+import cn.nukkit.level.format.FullChunk;
 import cn.nukkit.math.BlockFace;
+import cn.nukkit.math.BlockVector3;
 import cn.nukkit.math.Vector3;
 import cn.nukkit.nbt.tag.CompoundTag;
+import cn.nukkit.utils.MainLogger;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,7 +22,7 @@ import java.util.function.BiConsumer;
 public class BlockEntitySpawner {
 
     private static Map<Integer, String> blocks = new HashMap<>();
-    private static Map<Integer, BiConsumer<Chunk, Vector3>> blockEntities = new HashMap<>();
+    private static Map<Integer, BiConsumer<FullChunk, Vector3>> blockEntities = new HashMap<>();
 
     static {
         blocks.put(Block.CHEST, BlockEntity.CHEST);
@@ -36,19 +39,22 @@ public class BlockEntitySpawner {
         blocks.put(Block.HOPPER_BLOCK, BlockEntity.HOPPER);
 
         blockEntities.put(Block.CHEST, (chunk, pos) -> {
-            CompoundTag nbt = BlockEntity.getDefaultCompound(pos.add(chunk.getX() << 4, 0, chunk.getZ() << 4), BlockEntity.CHEST);
+            Vector3 realPos = pos.add(chunk.getX() << 4, 0, chunk.getZ() << 4);
+            CompoundTag nbt = BlockEntity.getDefaultCompound(realPos, BlockEntity.CHEST);
 
             BlockEntityChest chest = new BlockEntityChest(chunk, nbt);
-            Block b = chest.getLevelBlock();
+            Block b = getBlock(chunk, realPos);
 
             if (b instanceof BlockChest) {
                 BlockEntityChest be = null;
 
                 for (int side = 2; side <= 5; ++side) {
                     if ((b.getDamage() != 4 && b.getDamage() != 5 || side != 4 && side != 5) && (b.getDamage() != 3 && b.getDamage() != 2 || side != 2 && side != 3)) {
-                        Block c = b.getSide(BlockFace.fromIndex(side));
+                        Block c = getBlock(chunk, b, BlockFace.fromIndex(side));
+
                         if (c instanceof BlockChest && c.getDamage() == b.getDamage()) {
-                            BlockEntity blockEntity = b.getLevel().getBlockEntity(c);
+                            BlockEntity blockEntity = getBlockEntity(chunk, c);
+
                             if (blockEntity instanceof BlockEntityChest && !((BlockEntityChest) blockEntity).isPaired()) {
                                 be = (BlockEntityChest) blockEntity;
                                 break;
@@ -65,20 +71,72 @@ public class BlockEntitySpawner {
         });
     }
 
-    public static boolean checkBlockEntity(int blockId, Chunk chunk, Vector3 pos) {
-        BiConsumer<Chunk, Vector3> cons = blockEntities.get(blockId);
-        if (cons != null) {
-            cons.accept(chunk, pos);
-            return true;
-        }
+    public static boolean checkBlockEntity(int blockId, FullChunk chunk, Vector3 pos) {
+        try {
+            /*BiConsumer<FullChunk, Vector3> cons = blockEntities.get(blockId);
+            if (cons != null) {
+                cons.accept(chunk, pos);
+                return true;
+            }*/
 
-        String bid = blocks.get(blockId);
+            String bid = blocks.get(blockId);
 
-        if (bid != null && chunk.getTile(pos.getFloorX(), pos.getFloorY(), pos.getFloorZ()) == null) {
-            BlockEntity.createBlockEntity(bid, chunk, BlockEntity.getDefaultCompound(pos.add(chunk.getX() << 4, 0, chunk.getZ() << 4), bid));
-            return true;
+            if (bid != null && chunk.getTile(pos.getFloorX(), pos.getFloorY(), pos.getFloorZ()) == null) {
+                Vector3 real = pos.add(chunk.getX() * 16, 0, chunk.getZ() * 16);
+
+                BlockEntity be = BlockEntity.createBlockEntity(bid, chunk, BlockEntity.getDefaultCompound(real, bid));
+                if (real.getFloorX() == 5349 && real.getFloorY() == 52 && real.getFloorZ() == 5007) {
+                    MainLogger.getLogger().info("PLACED BE " + be);
+                }
+
+                return true;
+            }
+        } catch (Exception e) {
+            MainLogger.getLogger().logException(e);
         }
 
         return false;
+    }
+
+    private static Block getBlock(FullChunk chunk, Vector3 pos, BlockFace offset) {
+        return getBlock(chunk, pos.add(offset.getXOffset(), offset.getYOffset(), offset.getZOffset()));
+    }
+
+    private static Block getBlock(FullChunk chunk, Vector3 pos) {
+        BlockVector3 floor = pos.asBlockVector3();
+
+        int chunkX = floor.x >> 4;
+        int chunkZ = floor.z >> 4;
+
+        Block block;
+        if (chunkX == chunk.getX() && chunkZ == chunk.getZ()) {
+            BlockVector3 chunkPos = pos.asBlockVector3();
+            chunkPos.x = chunkPos.x % 16;
+            chunkPos.z = chunkPos.z % 16;
+
+            block = Block.get(chunk.getBlockId(chunkPos.x, chunkPos.y, chunkPos.z), chunk.getBlockData(chunkPos.x, chunkPos.y, chunkPos.z));
+        } else {
+            block = chunk.getProvider().getLevel().getBlock(pos);
+        }
+
+        block.position(Position.fromObject(pos));
+        return block;
+    }
+
+    private static BlockEntity getBlockEntity(FullChunk chunk, Vector3 pos) {
+        BlockVector3 floor = pos.asBlockVector3();
+
+        int chunkX = floor.x >> 4;
+        int chunkZ = floor.z >> 4;
+
+        if (chunkX == chunk.getX() && chunkZ == chunk.getZ()) {
+            BlockVector3 chunkPos = floor.clone();
+            chunkPos.x = chunkPos.x % 16;
+            chunkPos.z = chunkPos.z % 16;
+
+            return chunk.getTile(chunkPos.x, chunkPos.y, chunkPos.z);
+        } else {
+            return chunk.getProvider().getLevel().getBlockEntity(pos);
+        }
     }
 }

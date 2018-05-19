@@ -87,7 +87,7 @@ public class WorldFixer extends PluginBase implements Listener {
                     }
 
                     if (args.length < 2) {
-                        sender.sendMessage(TextFormat.YELLOW + "Use /wf fixlevel <level name>");
+                        sender.sendMessage(TextFormat.YELLOW + "Use /wf fixlevel <level name> [fast]");
                         return false;
                     }
 

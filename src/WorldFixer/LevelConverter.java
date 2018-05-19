@@ -1,20 +1,20 @@
 package WorldFixer;
 
 import WorldFixer.util.BlockEntitySpawner;
-import WorldFixer.util.TextMessage;
-import cn.nukkit.blockentity.BlockEntity;
-import cn.nukkit.blockentity.BlockEntitySign;
+import cn.nukkit.block.Block;
 import cn.nukkit.item.Item;
 import cn.nukkit.level.Level;
 import cn.nukkit.level.format.LevelProvider;
-import cn.nukkit.level.format.anvil.Chunk;
 import cn.nukkit.level.format.anvil.RegionLoader;
+import cn.nukkit.level.format.generic.BaseFullChunk;
 import cn.nukkit.math.BlockFace;
 import cn.nukkit.math.NukkitMath;
 import cn.nukkit.math.Vector3;
 import cn.nukkit.utils.MainLogger;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -38,6 +38,8 @@ public class LevelConverter {
             long time = System.currentTimeMillis();
             plugin.getLogger().info("Starting fixing world '" + level.getName() + "'");
 
+            List<Vector3> chests = new ArrayList<>();
+
             for (File region : regions) {
                 Matcher m = pattern.matcher(region.getName());
                 int regionX, regionZ;
@@ -56,10 +58,13 @@ public class LevelConverter {
 
                 try {
                     RegionLoader loader = new RegionLoader(provider, regionX, regionZ);
-                    for (Integer index : loader.getLocationIndexes()) {
+                    Integer[] table = loader.getLocationIndexes();
+
+                    for (Integer index : table) {
                         int chunkX = index & 0x1f;
                         int chunkZ = index >> 5;
-                        Chunk chunk = loader.readChunk(chunkX, chunkZ);
+                        BaseFullChunk chunk = loader.readChunk(chunkX, chunkZ);
+
                         if (chunk == null) continue;
                         chunk.initChunk();
 
@@ -237,6 +242,9 @@ public class LevelConverter {
 
                                             chunk.setBlockData(x, y, z, meta);
                                             break;
+                                        case Block.CHEST:
+                                            chests.add(new Vector3(chunk.getX() << 4 + x, y, chunk.getZ() << 4 + z));
+                                            break;
                                         default:
                                             changed = false;
                                             break;
@@ -255,7 +263,7 @@ public class LevelConverter {
                             }
                         }
 
-                        for (BlockEntity blockEntity : chunk.getBlockEntities().values()) {
+                        /*for (BlockEntity blockEntity : chunk.getBlockEntities().values()) {
                             if (blockEntity instanceof BlockEntitySign) {
                                 BlockEntitySign sign = (BlockEntitySign) blockEntity;
 
@@ -267,10 +275,11 @@ public class LevelConverter {
 
                                 chunkChanged = true;
                             }
-                        }
+                        }*/
 
-                        if (chunkChanged)
+                        if (chunkChanged) {
                             loader.writeChunk(chunk);
+                        }
                     }
 
                     processed++;
@@ -292,6 +301,38 @@ public class LevelConverter {
                     }
                 }
             }
+
+            /*for(Vector3 pos : chests) {
+                if(level.getBlockEntity(pos) != null)
+                    continue;
+
+                CompoundTag nbt = BlockEntity.getDefaultCompound(pos, BlockEntity.CHEST);
+
+                BlockEntityChest chest = new BlockEntityChest(level.getChunk(pos.getFloorX() >> 4, pos.getFloorZ() >> 4), nbt);
+                BlockEntityChest be = null;
+
+                Block b = level.getBlock(pos);
+
+                for (int side = 2; side <= 5; ++side) {
+                    if ((b.getDamage() != 4 && b.getDamage() != 5 || side != 4 && side != 5) && (b.getDamage() != 3 && b.getDamage() != 2 || side != 2 && side != 3)) {
+                        Block c = b.getSide(BlockFace.fromIndex(side));
+
+                        if (c instanceof BlockChest && c.getDamage() == b.getDamage()) {
+                            BlockEntity blockEntity = level.getBlockEntity(c);
+
+                            if (blockEntity instanceof BlockEntityChest && !((BlockEntityChest) blockEntity).isPaired()) {
+                                be = (BlockEntityChest) blockEntity;
+                                break;
+                            }
+                        }
+                    }
+                }
+
+                if (be != null) {
+                    be.pairWith(chest);
+                    chest.pairWith(be);
+                }
+            }*/
 
             plugin.getLogger().info("World " + level.getName() + " successfully fixed in " + (System.currentTimeMillis() - time) / 1000 + "s. (Fixed " + blocks + " blocks and " + blockEntities
                     + " blockentities)");
