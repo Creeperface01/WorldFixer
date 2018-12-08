@@ -1,4 +1,4 @@
-package WorldFixer.util;
+package com.creeperface.nukkitx.worldfixer.util;
 
 import cn.nukkit.block.Block;
 import cn.nukkit.block.BlockChest;

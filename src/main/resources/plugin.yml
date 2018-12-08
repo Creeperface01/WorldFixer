@@ -1,7 +1,7 @@
 name: WorldFixer
 version: "1.1"
 api: ["1.0.0"]
-main: WorldFixer.WorldFixer
+main: com.creeperface.nukkitx.worldfixer.WorldFixer
 author: CreeperFace
 description: "Now you can fix grass and slabs easily and quickly!"
 

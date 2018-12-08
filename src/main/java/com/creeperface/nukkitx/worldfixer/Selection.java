@@ -1,4 +1,4 @@
-package WorldFixer;
+package com.creeperface.nukkitx.worldfixer;
 
 import cn.nukkit.level.Position;
 

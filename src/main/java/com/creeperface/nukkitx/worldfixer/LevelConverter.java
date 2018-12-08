@@ -1,6 +1,5 @@
-package WorldFixer;
+package com.creeperface.nukkitx.worldfixer;
 
-import WorldFixer.util.BlockEntitySpawner;
 import cn.nukkit.block.Block;
 import cn.nukkit.item.Item;
 import cn.nukkit.level.Level;
@@ -11,6 +10,7 @@ import cn.nukkit.math.BlockFace;
 import cn.nukkit.math.NukkitMath;
 import cn.nukkit.math.Vector3;
 import cn.nukkit.utils.MainLogger;
+import com.creeperface.nukkitx.worldfixer.util.BlockEntitySpawner;
 
 import java.io.File;
 import java.util.ArrayList;
