@@ -47,18 +47,21 @@ public class BlockEntitySpawner {
 
             if (b instanceof BlockChest) {
                 BlockEntityChest be = null;
+                BlockFace chestFace = getChestFace(b.getDamage());
 
-                for (int side = 2; side <= 5; ++side) {
-                    if ((b.getDamage() != 4 && b.getDamage() != 5 || side != 4 && side != 5) && (b.getDamage() != 3 && b.getDamage() != 2 || side != 2 && side != 3)) {
-                        Block c = getBlock(chunk, b, BlockFace.fromIndex(side));
+                if (chestFace == null) {
+                    return;
+                }
 
-                        if (c instanceof BlockChest && c.getDamage() == b.getDamage()) {
-                            BlockEntity blockEntity = getBlockEntity(chunk, c);
+                for (BlockFace face : new BlockFace[]{chestFace.rotateYCCW(), chestFace.getOpposite().rotateYCCW()}) {
+                    Block other = getBlock(chunk, realPos, face);
 
-                            if (blockEntity instanceof BlockEntityChest && !((BlockEntityChest) blockEntity).isPaired()) {
-                                be = (BlockEntityChest) blockEntity;
-                                break;
-                            }
+                    if (other instanceof BlockChest && other.getDamage() == b.getDamage()) {
+                        BlockEntity blockEntity = getBlockEntity(chunk, other);
+
+                        if (blockEntity instanceof BlockEntityChest && !((BlockEntityChest) blockEntity).isPaired()) {
+                            be = (BlockEntityChest) blockEntity;
+                            break;
                         }
                     }
                 }
@@ -135,5 +138,20 @@ public class BlockEntitySpawner {
         } else {
             return chunk.getProvider().getLevel().getBlockEntity(pos);
         }
+    }
+
+    private static BlockFace getChestFace(int meta) {
+        switch (meta) {
+            case 2:
+                return BlockFace.NORTH;
+            case 3:
+                return BlockFace.SOUTH;
+            case 4:
+                return BlockFace.WEST;
+            case 5:
+                return BlockFace.EAST;
+        }
+
+        return null;
     }
 }
