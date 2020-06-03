@@ -8,6 +8,7 @@ import cn.nukkit.event.EventHandler;
 import cn.nukkit.event.Listener;
 import cn.nukkit.event.block.BlockBreakEvent;
 import cn.nukkit.item.Item;
+import cn.nukkit.level.ChunkManager;
 import cn.nukkit.level.Level;
 import cn.nukkit.level.Position;
 import cn.nukkit.math.BlockFace;
@@ -219,173 +220,7 @@ public class WorldFixer extends PluginBase implements Listener {
                     int id = level.getBlockIdAt(x, y, z);
                     //int meta = level.getBlockDataAt(x, y, z);
 
-                    switch (id) {
-                        case 3:
-                            if (level.getBlockDataAt(x, y, z) == 2) {
-                                level.setBlockIdAt(x, y, z, Item.PODZOL);
-                            }
-                            break;
-                        case 125:
-                            level.setBlockIdAt(x, y, z, Item.DOUBLE_WOODEN_SLAB);
-                            break;
-                        case 126:
-                            level.setBlockIdAt(x, y, z, Item.WOOD_SLAB);
-                            break;
-                        case 95:
-                            level.setBlockIdAt(x, y, z, 241);
-                            break;
-                        case 160:
-                            level.setBlockIdAt(x, y, z, Item.GLASS_PANE);
-                            level.setBlockDataAt(x, y, z, 0);
-                            break;
-                        case 166:
-                            level.setBlockIdAt(x, y, z, Item.INVISIBLE_BEDROCK);
-                            break;
-                        case 177:
-                            level.setBlockIdAt(x, y, z, Item.AIR);
-                            break;
-                        case 188:
-                            level.setBlockIdAt(x, y, z, Item.FENCE);
-                            level.setBlockDataAt(x, y, z, 1);
-                            break;
-                        case 189:
-                            level.setBlockIdAt(x, y, z, Item.FENCE);
-                            level.setBlockDataAt(x, y, z, 2);
-                            break;
-                        case 190:
-                            level.setBlockIdAt(x, y, z, Item.FENCE);
-                            level.setBlockDataAt(x, y, z, 3);
-                            break;
-                        case 191:
-                            level.setBlockIdAt(x, y, z, Item.FENCE);
-                            level.setBlockDataAt(x, y, z, 4);
-                            break;
-                        case 192:
-                            level.setBlockIdAt(x, y, z, Item.FENCE);
-                            level.setBlockDataAt(x, y, z, 5);
-                            break;
-                        case 198:
-                            level.setBlockIdAt(x, y, z, Item.END_ROD);
-                            break;
-                        case 199:
-                            level.setBlockIdAt(x, y, z, Item.CHORUS_PLANT);
-                            break;
-                        case 202:
-                        case 204:
-                            level.setBlockIdAt(x, y, z, Item.PURPUR_BLOCK);
-                            break;
-                        case 203:
-                            level.setBlockIdAt(x, y, z, 202);
-                            break;
-                        case 208:
-                            level.setBlockIdAt(x, y, z, Item.GRASS_PATH);
-                            break;
-                        case 210:
-                            level.setBlockIdAt(x, y, z, 188);
-                            break;
-                        case 211:
-                            level.setBlockIdAt(x, y, z, 189);
-                            break;
-                        case 158:
-                            level.setBlockIdAt(x, y, z, 125);
-                            break;
-                        case 157:
-                            level.setBlockIdAt(x, y, z, 126);
-                            break;
-                        case 235:
-                            level.setBlockIdAt(x, y, z, 220);
-                            break;
-                        case 236:
-                            level.setBlockIdAt(x, y, z, 221);
-                            break;
-                        case 237:
-                            level.setBlockIdAt(x, y, z, 222);
-                            break;
-                        case 238:
-                            level.setBlockIdAt(x, y, z, 223);
-                            break;
-                        case 239:
-                            level.setBlockIdAt(x, y, z, 224);
-                            break;
-                        case 240:
-                            level.setBlockIdAt(x, y, z, 225);
-                            break;
-                        case 241:
-                            level.setBlockIdAt(x, y, z, 226);
-                            break;
-                        case 242:
-                            level.setBlockIdAt(x, y, z, 227);
-                            break;
-                        case 243:
-                            level.setBlockIdAt(x, y, z, 228);
-                            break;
-                        case 244:
-                            level.setBlockIdAt(x, y, z, 229);
-                            break;
-                        case 245:
-                            level.setBlockIdAt(x, y, z, 230);
-                            break;
-                        case 246:
-                            level.setBlockIdAt(x, y, z, 231);
-                            break;
-                        case 247:
-                            level.setBlockIdAt(x, y, z, 232);
-                            break;
-                        case 248:
-                            level.setBlockIdAt(x, y, z, 233);
-                            break;
-                        case 249:
-                            level.setBlockIdAt(x, y, z, 234);
-                            break;
-                        case 250:
-                            level.setBlockIdAt(x, y, z, 235);
-                            break;
-                        case 251:
-                            level.setBlockIdAt(x, y, z, 236);
-                            break;
-                        case 252:
-                            level.setBlockIdAt(x, y, z, 237);
-                            break;
-                        case 218:
-                            level.setBlockIdAt(x, y, z, 251);
-                            break;
-                        case 207:
-                            level.setBlockIdAt(x, y, z, 244);
-                            break;
-                        case Item.STONE_BUTTON:
-                        case Item.WOODEN_BUTTON:
-                            int data = level.getBlockDataAt(x, y, z);
-                            int face = data & 0b111;
-
-                            int meta = 0;
-                            switch (face) {
-                                case 0: //down
-                                    meta = BlockFace.DOWN.getIndex();
-                                    break;
-                                case 1: //east
-                                    meta = BlockFace.EAST.getIndex();
-                                    break;
-                                case 2: //west
-                                    meta = BlockFace.WEST.getIndex();
-                                    break;
-                                case 3: //south
-                                    meta = BlockFace.SOUTH.getIndex();
-                                    break;
-                                case 4: //north
-                                    meta = BlockFace.NORTH.getIndex();
-                                    break;
-                                case 5: //up
-                                    meta = BlockFace.UP.getIndex();
-                                    break;
-                            }
-
-                            if ((data & 0x08) == 0x08) {
-                                meta |= 0x08;
-                            }
-
-                            level.setBlockDataAt(x, y, z, meta);
-                            break;
-                    }
+                    fixId(level, x, y, z, id);
                     //}
                 }
 
@@ -426,6 +261,190 @@ public class WorldFixer extends PluginBase implements Listener {
         getServer().loadLevel(folder);
 
         LevelConverter.convert(this, getServer().getLevelByName(folder), fast);
+    }
+
+    public static boolean fixId(ChunkManager cm, int x, int y, int z, int id) {
+        boolean changed = true;
+
+        switch (id) {
+            case 3:
+                if (cm.getBlockDataAt(x, y, z) == 2) {
+                    cm.setBlockIdAt(x, y, z, Item.PODZOL);
+                }
+                break;
+            case 125:
+                cm.setBlockIdAt(x, y, z, Item.DOUBLE_WOODEN_SLAB);
+                break;
+            case 126:
+                cm.setBlockIdAt(x, y, z, Item.WOOD_SLAB);
+                break;
+            case 95:
+                cm.setBlockIdAt(x, y, z, 241);
+                break;
+            case 157:
+                cm.setBlockIdAt(x, y, z, 126);
+                break;
+            case 158:
+                cm.setBlockIdAt(x, y, z, 125);
+                break;
+            case 160:
+                cm.setBlockIdAt(x, y, z, Item.GLASS_PANE);
+                cm.setBlockDataAt(x, y, z, 0);
+                break;
+            case 166:
+                cm.setBlockIdAt(x, y, z, Item.INVISIBLE_BEDROCK);
+                break;
+            case 177:
+                cm.setBlockIdAt(x, y, z, Item.AIR);
+                break;
+            case 188:
+                cm.setBlockIdAt(x, y, z, Item.FENCE);
+                cm.setBlockDataAt(x, y, z, 1);
+                break;
+            case 189:
+                cm.setBlockIdAt(x, y, z, Item.FENCE);
+                cm.setBlockDataAt(x, y, z, 2);
+                break;
+            case 190:
+                cm.setBlockIdAt(x, y, z, Item.FENCE);
+                cm.setBlockDataAt(x, y, z, 3);
+                break;
+            case 191:
+                cm.setBlockIdAt(x, y, z, Item.FENCE);
+                cm.setBlockDataAt(x, y, z, 4);
+                break;
+            case 192:
+                cm.setBlockIdAt(x, y, z, Item.FENCE);
+                cm.setBlockDataAt(x, y, z, 5);
+                break;
+            case 198:
+                cm.setBlockIdAt(x, y, z, Item.END_ROD);
+                break;
+            case 199:
+                cm.setBlockIdAt(x, y, z, Item.CHORUS_PLANT);
+                break;
+            case 202: //pillar
+            case 204: //double slab
+            case 205: //slab
+                cm.setBlockIdAt(x, y, z, Item.PURPUR_BLOCK);
+                break;
+            case 207:
+                cm.setBlockIdAt(x, y, z, Item.BEETROOT_BLOCK);
+                break;
+            case 208:
+                cm.setBlockIdAt(x, y, z, Item.GRASS_PATH);
+                break;
+            case 210: //repeating command block
+                cm.setBlockIdAt(x, y, z, 188);
+                break;
+            case 211: //chain command block
+                cm.setBlockIdAt(x, y, z, 189);
+                break;
+            case 218:
+                cm.setBlockIdAt(x, y, z, Item.OBSERVER);
+                break;
+            case 235:
+                cm.setBlockIdAt(x, y, z, Item.WHITE_GLAZED_TERRACOTTA);
+                break;
+            case 236:
+                cm.setBlockIdAt(x, y, z, Item.ORANGE_GLAZED_TERRACOTTA);
+                break;
+            case 237:
+                cm.setBlockIdAt(x, y, z, Item.MAGENTA_GLAZED_TERRACOTTA);
+                break;
+            case 238:
+                cm.setBlockIdAt(x, y, z, Item.LIGHT_BLUE_GLAZED_TERRACOTTA);
+                break;
+            case 239:
+                cm.setBlockIdAt(x, y, z, Item.YELLOW_GLAZED_TERRACOTTA);
+                break;
+            case 240:
+                cm.setBlockIdAt(x, y, z, Item.LIME_GLAZED_TERRACOTTA);
+                break;
+            case 241:
+                cm.setBlockIdAt(x, y, z, Item.PINK_GLAZED_TERRACOTTA);
+                break;
+            case 242:
+                cm.setBlockIdAt(x, y, z, Item.GRAY_GLAZED_TERRACOTTA);
+                break;
+            case 243:
+                cm.setBlockIdAt(x, y, z, Item.SILVER_GLAZED_TERRACOTTA);
+                break;
+            case 244:
+                cm.setBlockIdAt(x, y, z, Item.CYAN_GLAZED_TERRACOTTA);
+                break;
+            case 245:
+                cm.setBlockIdAt(x, y, z, Item.PURPLE_GLAZED_TERRACOTTA);
+                break;
+            case 246:
+                cm.setBlockIdAt(x, y, z, Item.BLUE_GLAZED_TERRACOTTA);
+                break;
+            case 247:
+                cm.setBlockIdAt(x, y, z, Item.BROWN_GLAZED_TERRACOTTA);
+                break;
+            case 248:
+                cm.setBlockIdAt(x, y, z, Item.GREEN_GLAZED_TERRACOTTA);
+                break;
+            case 249:
+                cm.setBlockIdAt(x, y, z, Item.RED_GLAZED_TERRACOTTA);
+                break;
+            case 250:
+                cm.setBlockIdAt(x, y, z, Item.BLACK_GLAZED_TERRACOTTA);
+                break;
+            case 251:
+                cm.setBlockIdAt(x, y, z, Item.CONCRETE);
+                break;
+            case 252:
+                cm.setBlockIdAt(x, y, z, Item.CONCRETE_POWDER);
+                break;
+            case Item.STONE_BUTTON:
+            case Item.WOODEN_BUTTON:
+                int data = cm.getBlockDataAt(x, y, z);
+                int face = data & 0b111;
+
+                int meta = 0;
+                switch (face) {
+                    case 0: //down
+                        meta = BlockFace.DOWN.getIndex();
+                        break;
+                    case 1: //east
+                        meta = BlockFace.EAST.getIndex();
+                        break;
+                    case 2: //west
+                        meta = BlockFace.WEST.getIndex();
+                        break;
+                    case 3: //south
+                        meta = BlockFace.SOUTH.getIndex();
+                        break;
+                    case 4: //north
+                        meta = BlockFace.NORTH.getIndex();
+                        break;
+                    case 5: //up
+                        meta = BlockFace.UP.getIndex();
+                        break;
+                }
+
+                if ((data & 0x08) == 0x08) {
+                    meta |= 0x08;
+                }
+
+                cm.setBlockDataAt(x, y, z, meta);
+                break;
+//            case Block.CHEST:
+//                chests.add(new Vector3(cm.getX() << 4 + x, y, cm.getZ() << 4 + z));
+//                break;
+            default:
+                changed = false;
+                break;
+        }
+
+        if (id >= 219 && id <= 234) { //shulker box
+            cm.setBlockIdAt(x, y, z, Item.SHULKER_BOX);
+            cm.setBlockDataAt(x, y, z, id - 219);
+            changed = true;
+        }
+
+        return changed;
     }
 
     /*@EventHandler
