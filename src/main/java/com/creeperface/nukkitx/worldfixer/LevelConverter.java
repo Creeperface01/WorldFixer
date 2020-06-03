@@ -91,6 +91,12 @@ public class LevelConverter {
                                         case 95:
                                             chunk.setBlockId(x, y, z, 241);
                                             break;
+                                        case 157:
+                                            chunk.setBlockId(x, y, z, 126);
+                                            break;
+                                        case 158:
+                                            chunk.setBlockId(x, y, z, 125);
+                                            break;
                                         case 160:
                                             chunk.setBlockId(x, y, z, Item.GLASS_PANE);
                                             chunk.setBlockData(x, y, z, 0);
@@ -127,87 +133,79 @@ public class LevelConverter {
                                         case 199:
                                             chunk.setBlockId(x, y, z, Item.CHORUS_PLANT);
                                             break;
-                                        case 202:
-                                        case 204:
+                                        case 202: //pillar
+                                        case 204: //double slab
+                                        case 205: //slab
                                             chunk.setBlockId(x, y, z, Item.PURPUR_BLOCK);
                                             break;
-                                        case 203:
-                                            chunk.setBlockId(x, y, z, 202);
+                                        case 207:
+                                            chunk.setBlockId(x, y, z, Item.BEETROOT_BLOCK);
                                             break;
                                         case 208:
                                             chunk.setBlockId(x, y, z, Item.GRASS_PATH);
                                             break;
-                                        case 210:
+                                        case 210: //repeating command block
                                             chunk.setBlockId(x, y, z, 188);
                                             break;
-                                        case 211:
+                                        case 211: //chain command block
                                             chunk.setBlockId(x, y, z, 189);
                                             break;
-                                        case 158:
-                                            chunk.setBlockId(x, y, z, 125);
-                                            break;
-                                        case 157:
-                                            chunk.setBlockId(x, y, z, 126);
+                                        case 218:
+                                            chunk.setBlockId(x, y, z, Item.OBSERVER);
                                             break;
                                         case 235:
-                                            chunk.setBlockId(x, y, z, 220);
+                                            chunk.setBlockId(x, y, z, Item.WHITE_GLAZED_TERRACOTTA);
                                             break;
                                         case 236:
-                                            chunk.setBlockId(x, y, z, 221);
+                                            chunk.setBlockId(x, y, z, Item.ORANGE_GLAZED_TERRACOTTA);
                                             break;
                                         case 237:
-                                            chunk.setBlockId(x, y, z, 222);
+                                            chunk.setBlockId(x, y, z, Item.MAGENTA_GLAZED_TERRACOTTA);
                                             break;
                                         case 238:
-                                            chunk.setBlockId(x, y, z, 223);
+                                            chunk.setBlockId(x, y, z, Item.LIGHT_BLUE_GLAZED_TERRACOTTA);
                                             break;
                                         case 239:
-                                            chunk.setBlockId(x, y, z, 224);
+                                            chunk.setBlockId(x, y, z, Item.YELLOW_GLAZED_TERRACOTTA);
                                             break;
                                         case 240:
-                                            chunk.setBlockId(x, y, z, 225);
+                                            chunk.setBlockId(x, y, z, Item.LIME_GLAZED_TERRACOTTA);
                                             break;
                                         case 241:
-                                            chunk.setBlockId(x, y, z, 226);
+                                            chunk.setBlockId(x, y, z, Item.PINK_GLAZED_TERRACOTTA);
                                             break;
                                         case 242:
-                                            chunk.setBlockId(x, y, z, 227);
+                                            chunk.setBlockId(x, y, z, Item.GRAY_GLAZED_TERRACOTTA);
                                             break;
                                         case 243:
-                                            chunk.setBlockId(x, y, z, 228);
+                                            chunk.setBlockId(x, y, z, Item.SILVER_GLAZED_TERRACOTTA);
                                             break;
                                         case 244:
-                                            chunk.setBlockId(x, y, z, 229);
+                                            chunk.setBlockId(x, y, z, Item.CYAN_GLAZED_TERRACOTTA);
                                             break;
                                         case 245:
-                                            chunk.setBlockId(x, y, z, 230);
+                                            chunk.setBlockId(x, y, z, Item.PURPLE_GLAZED_TERRACOTTA);
                                             break;
                                         case 246:
-                                            chunk.setBlockId(x, y, z, 231);
+                                            chunk.setBlockId(x, y, z, Item.BLUE_GLAZED_TERRACOTTA);
                                             break;
                                         case 247:
-                                            chunk.setBlockId(x, y, z, 232);
+                                            chunk.setBlockId(x, y, z, Item.BROWN_GLAZED_TERRACOTTA);
                                             break;
                                         case 248:
-                                            chunk.setBlockId(x, y, z, 233);
+                                            chunk.setBlockId(x, y, z, Item.GREEN_GLAZED_TERRACOTTA);
                                             break;
                                         case 249:
-                                            chunk.setBlockId(x, y, z, 234);
+                                            chunk.setBlockId(x, y, z, Item.RED_GLAZED_TERRACOTTA);
                                             break;
                                         case 250:
-                                            chunk.setBlockId(x, y, z, 235);
+                                            chunk.setBlockId(x, y, z, Item.BLACK_GLAZED_TERRACOTTA);
                                             break;
                                         case 251:
-                                            chunk.setBlockId(x, y, z, 236);
+                                            chunk.setBlockId(x, y, z, Item.CONCRETE);
                                             break;
                                         case 252:
-                                            chunk.setBlockId(x, y, z, 237);
-                                            break;
-                                        case 218:
-                                            chunk.setBlockId(x, y, z, 251);
-                                            break;
-                                        case 207:
-                                            chunk.setBlockId(x, y, z, 244);
+                                            chunk.setBlockId(x, y, z, Item.CONCRETE_POWDER);
                                             break;
                                         case Item.STONE_BUTTON:
                                         case Item.WOODEN_BUTTON:
@@ -248,6 +246,12 @@ public class LevelConverter {
                                         default:
                                             changed = false;
                                             break;
+                                    }
+
+                                    if (id >= 219 && id <= 234) { //shulker box
+                                        chunk.setBlockId(x, y, z, Item.SHULKER_BOX);
+                                        chunk.setBlockData(x, y, z, id - 219);
+                                        changed = true;
                                     }
 
                                     if (changed) {
