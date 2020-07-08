@@ -55,36 +55,34 @@ public class LevelConverter {
 
                 try {
                     RegionLoader loader = new RegionLoader(provider, regionX, regionZ);
-                    Integer[] table = loader.getLocationIndexes();
 
-                    for (Integer index : table) {
-                        int chunkX = index & 0x1f;
-                        int chunkZ = index >> 5;
-                        BaseFullChunk chunk = loader.readChunk(chunkX, chunkZ);
+                    for (int chunkX = 0; chunkX < 32; chunkX++) {
+                        for (int chunkZ = 0; chunkZ < 32; chunkZ++) {
+                            BaseFullChunk chunk = loader.readChunk(chunkX, chunkZ);
 
-                        if (chunk == null) continue;
-                        chunk.initChunk();
+                            if (chunk == null) continue;
+                            chunk.initChunk();
 
-                        boolean chunkChanged = false;
+                            boolean chunkChanged = false;
 
-                        for (int x = 0; x < 16; x++) {
-                            for (int y = 0; y < 256; y++) {
-                                for (int z = 0; z < 16; z++) {
-                                    int id = chunk.getBlockId(x, y, z);
-                                    boolean changed = WorldFixer.fixId(chunk, (chunkX << 4) | x, y, (chunkZ << 4) | z, id);
+                            for (int x = 0; x < 16; x++) {
+                                for (int y = 0; y < 256; y++) {
+                                    for (int z = 0; z < 16; z++) {
+                                        int id = chunk.getBlockId(x, y, z);
+                                        boolean changed = WorldFixer.fixId(chunk, (chunk.getX() << 4) | (x & 0xf), y, (chunk.getZ() << 4) | (z & 0xf), id);
 
-                                    if (changed) {
-                                        chunkChanged = true;
-                                        blocks++;
-                                    }
+                                        if (changed) {
+                                            chunkChanged = true;
+                                            blocks++;
+                                        }
 
-                                    if (BlockEntitySpawner.checkBlockEntity(id, chunk, new Vector3(x, y, z))) {
-                                        chunkChanged = true;
-                                        blockEntities++;
+                                        if (BlockEntitySpawner.checkBlockEntity(id, chunk, new Vector3(x, y, z))) {
+                                            chunkChanged = true;
+                                            blockEntities++;
+                                        }
                                     }
                                 }
                             }
-                        }
 
                         /*for (BlockEntity blockEntity : chunk.getBlockEntities().values()) {
                             if (blockEntity instanceof BlockEntitySign) {
@@ -100,8 +98,9 @@ public class LevelConverter {
                             }
                         }*/
 
-                        if (chunkChanged) {
-                            loader.writeChunk(chunk);
+                            if (chunkChanged) {
+                                loader.writeChunk(chunk);
+                            }
                         }
                     }
 
