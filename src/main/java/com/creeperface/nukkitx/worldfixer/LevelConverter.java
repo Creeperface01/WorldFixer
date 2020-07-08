@@ -71,7 +71,7 @@ public class LevelConverter {
                             for (int y = 0; y < 256; y++) {
                                 for (int z = 0; z < 16; z++) {
                                     int id = chunk.getBlockId(x, y, z);
-                                    boolean changed = WorldFixer.fixId(chunk, x, y, z, id);
+                                    boolean changed = WorldFixer.fixId(chunk, (chunkX << 4) | x, y, (chunkZ << 4) | z, id);
 
                                     if (changed) {
                                         chunkChanged = true;

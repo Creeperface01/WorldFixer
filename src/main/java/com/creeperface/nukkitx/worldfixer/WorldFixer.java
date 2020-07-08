@@ -279,13 +279,13 @@ public class WorldFixer extends PluginBase implements Listener {
                 cm.setBlockIdAt(x, y, z, Item.WOOD_SLAB);
                 break;
             case 95:
-                cm.setBlockIdAt(x, y, z, 241);
+                cm.setBlockIdAt(x, y, z, Item.STAINED_GLASS);
                 break;
             case 157:
-                cm.setBlockIdAt(x, y, z, 126);
+                cm.setBlockIdAt(x, y, z, Item.ACTIVATOR_RAIL);
                 break;
             case 158:
-                cm.setBlockIdAt(x, y, z, 125);
+                cm.setBlockIdAt(x, y, z, Item.DROPPER);
                 break;
             case 160:
                 cm.setBlockIdAt(x, y, z, Item.GLASS_PANE);
