@@ -213,10 +213,10 @@ public class WorldFixer extends PluginBase implements Listener {
             getServer().loadLevel(level.getFolderName());
         }
 
-        for (int x = Math.min(x1, x2); x < Math.max(x1, x2); x++) {
-            for (int z = Math.min(z1, z2); z < Math.max(z1, z2); z++) {
+        for (int x = Math.min(x1, x2); x <= Math.max(x1, x2); x++) {
+            for (int z = Math.min(z1, z2); z <= Math.max(z1, z2); z++) {
                 //if (slabs) {
-                for (int y = Math.min(y1, y2); y < Math.max(y1, y2); y++) {
+                for (int y = Math.min(y1, y2); y <= Math.max(y1, y2); y++) {
                     int id = level.getBlockIdAt(x, y, z);
                     //int meta = level.getBlockDataAt(x, y, z);
 
@@ -429,6 +429,25 @@ public class WorldFixer extends PluginBase implements Listener {
                 }
 
                 cm.setBlockDataAt(x, y, z, meta);
+                break;
+            case Item.TRAPDOOR:
+            case Item.IRON_TRAPDOOR:
+                int currentDamage = cm.getBlockDataAt(x, y, z);
+                int key = currentDamage >> 2;
+                int damage = 0;
+                switch (key) {
+                    case 0:
+                        damage = 3 - currentDamage;
+                        break;
+                    case 1:
+                    case 2:
+                        damage = 15 - currentDamage;
+                        break;
+                    case 3:
+                        damage = 27 - currentDamage;
+                }
+
+                cm.setBlockDataAt(x, y, z, damage);
                 break;
 //            case Block.CHEST:
 //                chests.add(new Vector3(cm.getX() << 4 + x, y, cm.getZ() << 4 + z));
