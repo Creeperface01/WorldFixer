@@ -430,6 +430,25 @@ public class WorldFixer extends PluginBase implements Listener {
 
                 cm.setBlockDataAt(x, y, z, meta);
                 break;
+            case Item.TRAPDOOR:
+            case Item.IRON_TRAPDOOR:
+                int currentDamage = cm.getBlockDataAt(x, y, z);
+                int key = currentDamage >> 2;
+                int damage = 0;
+                switch (key) {
+                    case 0:
+                        damage = 3 - currentDamage;
+                        break;
+                    case 1:
+                    case 2:
+                        damage = 15 - currentDamage;
+                        break;
+                    case 3:
+                        damage = 27 - currentDamage;
+                }
+
+                cm.setBlockDataAt(x, y, z, damage);
+                break;
 //            case Block.CHEST:
 //                chests.add(new Vector3(cm.getX() << 4 + x, y, cm.getZ() << 4 + z));
 //                break;
