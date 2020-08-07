@@ -213,10 +213,10 @@ public class WorldFixer extends PluginBase implements Listener {
             getServer().loadLevel(level.getFolderName());
         }
 
-        for (int x = Math.min(x1, x2); x < Math.max(x1, x2); x++) {
-            for (int z = Math.min(z1, z2); z < Math.max(z1, z2); z++) {
+        for (int x = Math.min(x1, x2); x <= Math.max(x1, x2); x++) {
+            for (int z = Math.min(z1, z2); z <= Math.max(z1, z2); z++) {
                 //if (slabs) {
-                for (int y = Math.min(y1, y2); y < Math.max(y1, y2); y++) {
+                for (int y = Math.min(y1, y2); y <= Math.max(y1, y2); y++) {
                     int id = level.getBlockIdAt(x, y, z);
                     //int meta = level.getBlockDataAt(x, y, z);
 
